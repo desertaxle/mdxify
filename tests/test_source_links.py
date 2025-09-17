@@ -160,7 +160,7 @@ def test_inherited_method_source_links():
                     return child_file
                 return None
             
-            def mock_find_all_modules(root_module):
+            def mock_find_all_modules(root_module, verbose=False):
                 return ["parent_module", "child_module"]
             
             with patch('mdxify.discovery.get_module_source_file', side_effect=mock_get_module_source_file), \

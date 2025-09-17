@@ -221,7 +221,7 @@ def parse_module_fast(module_name: str, source_file: Path, include_internal: boo
     return module_info
 
 
-def parse_modules_with_inheritance(modules_to_process: list[str], include_internal: bool = False) -> dict[str, dict[str, Any]]:
+def parse_modules_with_inheritance(modules_to_process: list[str], include_internal: bool = False, verbose: bool = False) -> dict[str, dict[str, Any]]:
     """Parse multiple modules with inheritance support, including parent classes in private modules."""
     from .cli import should_include_module
     from .discovery import find_all_modules, get_module_source_file
@@ -237,7 +237,7 @@ def parse_modules_with_inheritance(modules_to_process: list[str], include_intern
     # Find all modules under the root (including private ones)
     all_modules = []
     if root_module:
-        all_modules = find_all_modules(root_module)
+        all_modules = find_all_modules(root_module, verbose=verbose)
     # Add the explicitly requested modules in case they're not found by find_all_modules
     all_modules.extend(modules_to_process)
     all_modules = sorted(set(all_modules))  # Remove duplicates

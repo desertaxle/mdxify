@@ -229,7 +229,7 @@ def main():
         # Generate all modules under root
         if args.verbose:
             print(f"Finding all {args.root_module} modules...")
-        modules_to_process = find_all_modules(args.root_module)
+        modules_to_process = find_all_modules(args.root_module, verbose=args.verbose)
         if not modules_to_process:
             print(f"Warning: Could not find any modules for '{args.root_module}'.")
             print("This may happen when:")
@@ -250,7 +250,7 @@ def main():
         for module in args.modules:
             modules_to_process.append(module)
             # Also find submodules
-            submodules = find_all_modules(module)
+            submodules = find_all_modules(module, verbose=args.verbose)
             modules_to_process.extend(submodules)
 
     # Remove duplicates
@@ -353,7 +353,7 @@ def main():
     if args.include_inheritance:
         # Use inheritance-aware parsing
         try:
-            module_results = parse_modules_with_inheritance(modules_to_process, args.include_internal)
+            module_results = parse_modules_with_inheritance(modules_to_process, args.include_internal, verbose=args.verbose)
             
             for module_name, module_info in module_results.items():
                 try:

@@ -353,7 +353,7 @@ def test_inheritance_from_private_module(tmp_path):
             return public_file
         return None
     
-    def mock_find_all_modules(root_module):
+    def mock_find_all_modules(root_module, verbose=False):
         return ["_internal", "public_mod"]
     try:
         with patch('mdxify.discovery.get_module_source_file', side_effect=mock_get_module_source_file), \

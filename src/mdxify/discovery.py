@@ -18,8 +18,16 @@ def get_module_source_file(module_name: str) -> Optional[Path]:
     return None
 
 
-def find_all_modules(root_module: str) -> list[str]:
-    """Find all modules under a root module."""
+def find_all_modules(root_module: str, verbose: bool = False) -> list[str]:
+    """Find all modules under a root module.
+
+    Args:
+        root_module: The root module to search under
+        verbose: If True, print debug information about discovery failures
+
+    Returns:
+        List of module names found. Empty list if the root module cannot be imported.
+    """
     modules = []
 
     try:
@@ -29,8 +37,12 @@ def find_all_modules(root_module: str) -> list[str]:
                 root.__path__, prefix=root_module + "."
             ):
                 modules.append(modname)
-    except ImportError:
-        pass
+    except ImportError as e:
+        if verbose:
+            import sys
+            print(f"Warning: Failed to import '{root_module}': {e}", file=sys.stderr)
+            print(f"Current Python path: {sys.path}", file=sys.stderr)
+            print(f"Make sure the module is installed or accessible from the current directory", file=sys.stderr)
 
     return sorted(modules)
 
